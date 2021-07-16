@@ -36,19 +36,20 @@ const userSchema = mongoose.Schema({
     otherTalents: [
         {
             type: String,
-            enum: Object.values(TALENT), 
+            enum: Object.values(TALENT),
         }
     ],
     verification: {
         type: String,
         enum: Object.values(VERIFICATION),
     },
+    phoneNumber: String,
     resetPasswordToken: String,
     resetPasswordExpiration: Date
 }, {
     timestamps: true,
 })
 
-const User = mongoose.model('User', userSchema)
+const UserModel = mongoose.model('User', userSchema)
 
-export default User
+export default UserModel

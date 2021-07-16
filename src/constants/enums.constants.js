@@ -9,4 +9,6 @@ export const VERIFICATION = Object.freeze({
     ENDORSED: "ENDORSED",
 });
 
-export const TALENT = Object.freeze({});
+export const TALENT = Object.freeze({
+    ACTOR: "ACTOR",
+});
