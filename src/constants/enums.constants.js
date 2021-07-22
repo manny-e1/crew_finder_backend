@@ -1,6 +1,6 @@
 export const ROLE = Object.freeze({
     ADMIN: "ADMIN",
-    DIRECTOR: "DIRECTOR",
+    PRO_DIRECTOR: "PRO_DIRECTOR",
     APPLICANT: "APPLICANT",
 });
 
