@@ -1,5 +1,6 @@
-import mongoose from 'mongoose'
-import { ROLE, TALENT, VERIFICATION } from '../constants/enums.constants.js'
+import crypto from 'crypto';
+import mongoose from 'mongoose';
+import { ROLE, TALENT, VERIFICATION } from '../constants/enums.constants.js';
 const userSchema = mongoose.Schema({
     fullName: {
         type: String,
