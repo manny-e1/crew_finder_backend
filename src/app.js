@@ -6,6 +6,7 @@ import connectDatabase from './config/db.js';
 
 import userRoutes from './routes/user.route.js';
 import auditionPostRoutes from './routes/auditionpost.route.js';
+import applicationRoutes from './routes/application.routes.js';
 
 import { errorHandler, notFound } from './middlewares/error.js';
 
@@ -22,6 +23,7 @@ app.use(express.json());
 
 app.use('/users', userRoutes);
 app.use('/auditionposts', auditionPostRoutes);
+app.use('/applications', applicationRoutes);
 
 
 app.use(notFound)
