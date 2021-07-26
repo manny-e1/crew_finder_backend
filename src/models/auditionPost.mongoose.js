@@ -6,7 +6,7 @@ const auditionPostSchema = mongoose.Schema({
         ref: 'User',
         required: true,
     },
-    body: {
+    text: {
         type: String,
         required: true,
     },
@@ -16,7 +16,7 @@ const auditionPostSchema = mongoose.Schema({
     },  
     isAcceptingApplication: {
         type: Boolean,
-        default: false,
+        default: true,
     },
 }, {
     timestamps: true,

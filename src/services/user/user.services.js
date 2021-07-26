@@ -1,7 +1,7 @@
 import UserModel from "../../models/user.mongoose.js";
 
-async function getUser(obj){
-    return UserModel.findOne(obj);   
+async function getUser(filter, projection={}){
+    return UserModel.findOne(filter, projection);   
 }
 
 async function getUsers(){
