@@ -11,8 +11,8 @@ async function getApplications(){
     return ApplicationModel.find();
 }
 
-async function getApplication(id){
-    return ApplicationModel.findById(id);
+async function getApplication(filter){
+    return ApplicationModel.findOne(filter);
 }
 
 async function updateApplication(id, body){

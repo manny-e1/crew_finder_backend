@@ -2,6 +2,13 @@ import { createApplication, deleteApplication, getApplication, getApplications, 
 import { ErrorResponse } from "../utils/errorResponse.js";
 
 async function httpCreateApplication(req,res){
+    const alreadyApplied = await getApplication({
+        auditionPostId: req.body.auditionPostId,
+        applicantId: req.user._id
+    });
+    console.log(alreadyApplied);
+    if(alreadyApplied) throw new ErrorResponse("you have already applied", 400);
+
     return res
             .status(201)
             .json(await createApplication(req.body,req.user._id));
@@ -16,7 +23,7 @@ async function httpGetApplications(req,res){
 async function httpGetApplication(req,res){
     return res
             .status(200)
-            .json(await getApplication(req.params.id));
+            .json(await getApplication({_id:req.params.id}));
 }
 
 async function httpUpdateApplication(req,res){

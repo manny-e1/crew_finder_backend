@@ -8,8 +8,22 @@ import { sendEmail } from '../../utils/sendmail.js';
 import { generatePasswordHash, validatePassword } from "../../utils/hashpassword.js";
 import { generateJWT } from "../../utils/generateJWT.js";
 
-async function createUser(user) {
-    sendEmail(user.email)
+async function createUser(userInfo, host) {
+    const { token, hashedToken, expiration } = generateToken();
+    const user = Object.assign(userInfo, {
+        resetPasswordToken: hashedToken,
+        resetPasswordExpiration: expiration
+    });
+
+    const url = `${host}/users/confirm-email/${token}`;
+    const htmlMessage = html(url, true);
+
+    sendEmail({
+        to: user.email,
+        subject: "Email Confirmation Request",
+        text: htmlMessage,
+    });
+
     return UserModel.create(user);
 }
 
@@ -92,9 +106,36 @@ async function resetPassword(password, resetToken){
     }
 }
 
+async function confirmEmail(confirmToken){
+    const resetPasswordToken = hashToken(confirmToken);
+  
+    console.log(resetPasswordToken);
+    const user = await getUser({
+        resetPasswordToken,
+        resetPasswordExpiration: { 
+            $gt: Date.now() 
+        },
+    });
+
+    if (!user) throw new ErrorResponse("Invalid Token", 400);
+
+    user.isActive = true;
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpiration = undefined;
+
+    await user.save();
+
+    return {
+        success: true,
+        message: "Email confirmation successful",
+    }
+}
+
+
 export {
     createUser,
     loginUser,
     forgotPassword,
     resetPassword,
+    confirmEmail,
 }
