@@ -11,8 +11,8 @@ import { generateJWT } from "../../utils/generateJWT.js";
 async function createUser(userInfo, host) {
     const { token, hashedToken, expiration } = generateToken();
     const user = Object.assign(userInfo, {
-        resetPasswordToken: hashedToken,
-        resetPasswordExpiration: expiration
+        token: hashedToken,
+        tokenExpiration: expiration
     });
 
     const url = `${host}/users/confirm-email/${token}`;
@@ -50,8 +50,8 @@ async function forgotPassword(email, host){
     if (!user) throw new ErrorResponse("No email could not be sent", 404);
 
     const { token, hashedToken, expiration } = generateToken();
-    user.resetPasswordToken = hashedToken;
-    user.resetPasswordExpiration = expiration;
+    user.token = hashedToken;
+    user.tokenExpiration = expiration;
 
     await user.save();
 
@@ -71,7 +71,7 @@ async function forgotPassword(email, host){
     } catch (err) {
         console.log(err);
   
-        user.resetPasswordToken = undefined;
+        user.token = undefined;
         user.resetPasswordExpire = undefined;
   
         await user.save();
@@ -85,8 +85,8 @@ async function resetPassword(password, resetToken){
   
     console.log(resetPasswordToken);
     const user = await getUser({
-        resetPasswordToken,
-        resetPasswordExpiration: { 
+        token: resetPasswordToken,
+        tokenExpiration: { 
             $gt: Date.now() 
         },
     });
@@ -94,8 +94,8 @@ async function resetPassword(password, resetToken){
     if (!user) throw new ErrorResponse("Invalid Token", 400);
 
     user.password = await generatePasswordHash(password);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpiration = undefined;
+    user.token = undefined;
+    user.tokenExpiration = undefined;
 
     await user.save();
 
@@ -107,12 +107,12 @@ async function resetPassword(password, resetToken){
 }
 
 async function confirmEmail(confirmToken){
-    const resetPasswordToken = hashToken(confirmToken);
+    const emailConfimationToken = hashToken(confirmToken);
   
-    console.log(resetPasswordToken);
+    console.log(emailConfimationToken);
     const user = await getUser({
-        resetPasswordToken,
-        resetPasswordExpiration: { 
+        token: emailConfimationToken,
+        tokenExpiration: { 
             $gt: Date.now() 
         },
     });
@@ -120,8 +120,8 @@ async function confirmEmail(confirmToken){
     if (!user) throw new ErrorResponse("Invalid Token", 400);
 
     user.isActive = true;
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpiration = undefined;
+    user.token = undefined;
+    user.tokenExpiration = undefined;
 
     await user.save();
 

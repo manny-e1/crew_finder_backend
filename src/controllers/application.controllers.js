@@ -6,7 +6,6 @@ async function httpCreateApplication(req,res){
         auditionPostId: req.body.auditionPostId,
         applicantId: req.user._id
     });
-    console.log(alreadyApplied);
     if(alreadyApplied) throw new ErrorResponse("you have already applied", 400);
 
     return res
