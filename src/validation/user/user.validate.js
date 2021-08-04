@@ -34,5 +34,24 @@ const validateUser = [
     body('verification')
         .isIn(Object.values(VERIFICATION))
         .withMessage('Verification does not exist!'),
+    body('phoneNumber')
+        .isMobilePhone()
+        .withMessage('Provide valid phone number!'),
+    body('gender')
+        .isString()
+        .withMessage('Gender should be a String!')
+        .isIn(Object.values(GENDER))
+        .withMessage('Gender should be either Male or Female!'),
+    body('age')
+        .isDate()
+        .withMessage('Birth date is required as a date!')
+        .isBefore('Jan 1, 2010')
+        .isAfter('Jan 1, 1900')
+        .withMessage('Your age is not allowed to have this account!'),
+    body('address')
+        .isString()
+        .withMessage('Address needs to be a String')
 
 ];
+
+export default validateUser;
