@@ -21,5 +21,15 @@ const validateUser = [
     body('isActive')
         .isBoolean()
         .withMessage('isActive should be a boolean'),
+    body('role')
+        .isIn(Object.values(ROLE))
+        .withMessage('Role does not exist!'),
+    body('talent')
+        .isIn(Object.values(TALENT))
+        .withMessage('Talent does not exist!'),
+    // body('otherTalents'),
+    body('verification')
+        .isIn(Object.values(VERIFICATION))
+        .withMessage('Verification does not exist!'),
 
 ];
