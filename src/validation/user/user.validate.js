@@ -1,4 +1,5 @@
 import { body } from 'express-validator';
+import { ROLE,TALENT,VERIFICATION,GENDER } from '../../constants/enums.constants.js';
 
 const validateUser = [
     body('fullName')
@@ -27,7 +28,9 @@ const validateUser = [
     body('talent')
         .isIn(Object.values(TALENT))
         .withMessage('Talent does not exist!'),
-    // body('otherTalents'),
+    body('otherTalents')
+        .isIn(Object.values(TALENT))
+        .withMessage('Talent does not exist!'),
     body('verification')
         .isIn(Object.values(VERIFICATION))
         .withMessage('Verification does not exist!'),
