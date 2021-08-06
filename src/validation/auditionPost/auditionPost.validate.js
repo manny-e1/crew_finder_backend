@@ -5,5 +5,11 @@ const validateAuditionPost = [
         .isString()
         .withMessage('Text of Audition Post should be String!')
         .isLength({min: 10, max: 200})
-        .withMessage('Audition Post text should range 10 - 200 characters!')
+        .withMessage('Audition Post text should range 10 - 200 characters!'),
+    body('isAcceptingApplication')
+        .isBoolean()
+        .withMessage('isAcceptingApplication should be a boolean'),
+
 ];
+
+export default validateAuditionPost;
