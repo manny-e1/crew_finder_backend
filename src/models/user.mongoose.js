@@ -50,11 +50,18 @@ const userSchema = mongoose.Schema({
     },
     gender: {
         type: String,
+        required: true,
         enum: Object.values(GENDER),
     },
     address: {
-        country: String,
-        city: String,
+        country: {
+            type: String,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
     },
     phoneNumber: String,
     token: String,
