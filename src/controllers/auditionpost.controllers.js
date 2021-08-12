@@ -3,11 +3,13 @@ import { ErrorResponse } from "../utils/errorResponse.js";
 import { validationResult } from "express-validator";
 
 async function httpCreateAuditionPost(req,res){
+    let errorMessages = [];
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         errors.array().forEach((error) => {
-            return res.status(400).json(error.msg);
+            errorMessages.push({param: error.param, message:error.msg});
         });
+        return res.status(400).json({errors: errorMessages});
     };
     
     return res

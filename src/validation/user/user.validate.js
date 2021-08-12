@@ -19,9 +19,6 @@ const validateUser = [
     body('password')
         .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9]).{8,}$/, "i")
         .withMessage('Password should be minimum of 8 characters and include an Uppercase, a lowercase, a number and a character'),
-    body('isActive')
-        .isBoolean()
-        .withMessage('isActive should be a boolean'),
     body('role')
         .isIn(Object.values(ROLE))
         .withMessage('Role does not exist!'),
@@ -33,24 +30,24 @@ const validateUser = [
         .withMessage('Talent does not exist!'),
     body('verification')
         .isIn(Object.values(VERIFICATION))
-        .withMessage('Verification does not exist!'),
-    body('phoneNumber')
-        .isMobilePhone()
-        .withMessage('Provide valid phone number!'),
-    body('gender')
-        .isString()
-        .withMessage('Gender should be a String!')
-        .isIn(Object.values(GENDER))
-        .withMessage('Gender should be either Male or Female!'),
-    body('age')
+        .withMessage('Verification does not exist!'),    
+    body('birthdate')
         .isDate()
         .withMessage('Birth date is required as a date!')
         .isBefore('Jan 1, 2010')
         .isAfter('Jan 1, 1900')
         .withMessage('Your age is not allowed to have this account!'),
-    body('address')
+    body('gender')
         .isString()
-        .withMessage('Address needs to be a String')
+        .withMessage('Gender should be a String!')
+        .isIn(Object.values(GENDER))
+        .withMessage('Gender should be either Male or Female!'),
+    body('address')
+        .isObject()
+        .withMessage('Address needs to be an Object'),
+    body('phoneNumber')
+        .isMobilePhone()
+        .withMessage('Provide valid phone number!'),    
 
 ];
 
