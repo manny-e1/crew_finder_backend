@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-import { getUser } from '../services/user/user.services';
+import { getUser } from '../services/user/user.services.js';
 import { ErrorResponse } from '../utils/errorResponse.js';
 
 export async function isAuthenticated(req,_,next) {
@@ -8,7 +8,11 @@ export async function isAuthenticated(req,_,next) {
         try {
             token = req.headers.authorization.split(' ')[1];
             const {id} = jwt.verify(token, process.env.SECRET_KEY);
-            const currentUser = await getUser({id:req.user._id}).select("_id username name email");
+            const currentUser = await getUser({
+                                            _id:id
+                                        }, {
+                                            "_id":1, "fullName":1, "email":1, "username":1, "role":1
+                                        });
             req.user = currentUser;
             next();
         } catch (error) {

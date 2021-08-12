@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import mongoose from 'mongoose';
-import { ROLE, TALENT, VERIFICATION } from '../constants/enums.constants.js';
+import { GENDER, ROLE, TALENT, VERIFICATION } from '../constants/enums.constants.js';
 const userSchema = mongoose.Schema({
     fullName: {
         type: String,
@@ -44,9 +44,28 @@ const userSchema = mongoose.Schema({
         type: String,
         enum: Object.values(VERIFICATION),
     },
+    birthdate: {
+        type: Date,
+        required: true
+    },
+    gender: {
+        type: String,
+        required: true,
+        enum: Object.values(GENDER),
+    },
+    address: {
+        country: {
+            type: String,
+            required: true
+        },
+        city: {
+            type: String,
+            required: true
+        },
+    },
     phoneNumber: String,
-    resetPasswordToken: String,
-    resetPasswordExpiration: Date
+    token: String,
+    tokenExpiration: Date
 }, {
     timestamps: true,
 })

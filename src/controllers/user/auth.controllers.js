@@ -1,4 +1,4 @@
-import { createUser, forgotPassword, resetPassword, loginUser } from "../../services/user/auth.js";
+import { createUser, forgotPassword, resetPassword, loginUser, confirmEmail } from "../../services/user/auth.js";
 import { generatePasswordHash } from "../../utils/hashpassword.js";
 
 
@@ -6,7 +6,7 @@ import { generatePasswordHash } from "../../utils/hashpassword.js";
 async function httpCreateUser(req,res){
 
     req.body.password = await generatePasswordHash(req.body.password);
-    await createUser(req.body);
+    await createUser(req.body, req.headers.host);
     return res
             .status(201)
             .json("success");
@@ -39,10 +39,19 @@ async function httpResetPassword(req, res) {
 
 };
 
+async function httpConfirmEmail(req, res) {
+
+    return res
+            .status(200)
+            .json(await confirmEmail(req.params.confirmToken));
+
+};
+
 
 export {
     httpCreateUser,
     httpLoginUser,
     httpForgotPassword,
     httpResetPassword,
+    httpConfirmEmail
 }
