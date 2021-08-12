@@ -8,8 +8,8 @@ const validateAuditionPost = [
         .isLength({min: 10, max: 200})
         .withMessage('Audition Post text should range 10 - 200 characters!'),
     body('talents')
-        .isString()
-        .withMessage('Talent of Audition Post should be String!')
+        .isArray()
+        .withMessage('Talent of Audition Post should be an Array!')
         .isIn(Object.values(TALENT))
         .withMessage('Talent is not found!'),
     body('isAcceptingApplication')
