@@ -4,12 +4,14 @@ import { validationResult } from "express-validator";
 
 
 async function httpCreateUser(req,res){
+    let errorMessages = [];
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         errors.array().forEach((error) => {
-            return res.status(400).json(error.msg);
-        });        
-    }
+            errorMessages.push({param: error.param, message:error.msg});
+        });
+        return res.status(400).json({errors: errorMessages});
+    };
 
     req.body.password = await generatePasswordHash(req.body.password);
     await createUser(req.body, req.headers.host);
