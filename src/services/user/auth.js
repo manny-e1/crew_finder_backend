@@ -39,7 +39,19 @@ async function loginUser({email,password}){
 
     const token = await generateJWT(user._id);
     return {
-        message: "user sign in successfull",
+        id: user._id,
+        fullName: user.fullName,
+        email: user.email,
+        role: user.role,
+        isActive: user.isActive,
+        verification: user.verification,
+        phoneNumber: user.phoneNumber,
+        address: user.address,
+        birthdate: user.birthdate,
+        gender: user.gender,
+        otherTalents: user.otherTalents,
+        username: user.username,
+        talent: user.talent,
         token
     }
 }

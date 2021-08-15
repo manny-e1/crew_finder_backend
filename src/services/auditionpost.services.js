@@ -8,11 +8,15 @@ async function createAuditionPost(body,author){
 }
 
 async function getAuditionPosts(){
-    return AuditionPostModel.find();
+    return AuditionPostModel
+            .find()
+            .populate('author', 'id fullName');
 }
 
 async function getAuditionPost(id){
-    return AuditionPostModel.findById(id);
+    return AuditionPostModel
+            .findById(id)
+            .populate('author', 'id fullName');
 }
 
 async function updateAuditionPost(id, body){
@@ -26,10 +30,15 @@ async function deleteAuditionPost(id){
     return AuditionPostModel.findByIdAndDelete(id);
 }
 
+async function deleteAuditionPosts(){
+    return AuditionPostModel.deleteMany();
+}
+
 export {
     createAuditionPost,
     getAuditionPosts,
     getAuditionPost,
     updateAuditionPost,
     deleteAuditionPost,
+    deleteAuditionPosts,
 }

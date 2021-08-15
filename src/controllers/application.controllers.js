@@ -1,15 +1,15 @@
-import { createApplication, deleteApplication, getApplication, getApplications, updateApplication } from "../services/application.services.js";
+import { createApplication, deleteApplication, deleteApplications, getApplication, getApplications, updateApplication } from "../services/application.services.js";
 import { ErrorResponse } from "../utils/errorResponse.js";
 import { validationResult } from "express-validator";
 
 async function httpCreateApplication(req,res){
-    let errorMessages = [];
+    let errorMessages = {};
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         errors.array().forEach((error) => {
-            errorMessages.push({param: error.param, message:error.msg});
+            errorMessages[error.param] = error.msg;
         });
-        return res.status(400).json({errors: errorMessages});
+        throw new ErrorResponse(JSON.stringify(errorMessages), 400);
     };
 
     const alreadyApplied = await getApplication({
@@ -49,10 +49,17 @@ async function httpDeleteApplication(req,res) {
             .json(await deleteApplication(req.params.id));
 }
 
+async function httpDeleteApplications(req,res) {
+    return res
+            .status(200)
+            .json(await deleteApplications());
+}
+
 export {
     httpCreateApplication,
     httpUpdateApplication,
     httpGetApplications,
     httpGetApplication,
     httpDeleteApplication,
+    httpDeleteApplications,
 }
