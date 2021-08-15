@@ -33,6 +33,23 @@ describe('Users API', () =>{
             phoneNumber: "25190000000",
         };
 
+        const userDataWithoutBirthDate = {
+            fullName: "Test Name",
+            username: "tUser",
+            email: "test@test.com",
+            password: "Test123@",
+            role: "ADMIN",
+            talent: "ACTOR",
+            otherTalents: "DIRECTOR",
+            verification: "FAMOUS",
+            gender: "MALE",
+            address: {
+                country: "Test country",
+                city: "Test city",
+            },
+            phoneNumber: "25190000000",
+        };
+
         
         test('it should respond with 201 created', async () => {
             const response = await request(app)
@@ -46,6 +63,14 @@ describe('Users API', () =>{
 
             // expect(responseDate).toBe(requestDate);
             // expect(response.body).toMatchObject(userDataWithoutBirthDate);
+        });
+
+        test('it should respond with 400 bad request, catch missing required field', async () => {
+            const response = await request(app)
+                .post('/users')
+                .send(userDataWithoutBirthDate)
+                .expect('Content-Type', /json/)
+                .expect(400);
         });
 
         
