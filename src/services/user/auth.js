@@ -47,7 +47,7 @@ async function loginUser({email,password}){
         verification: user.verification,
         phoneNumber: user.phoneNumber,
         address: user.address,
-        birthDate: user.birthDate,
+        birthdate: user.birthdate,
         gender: user.gender,
         otherTalents: user.otherTalents,
         username: user.username,
