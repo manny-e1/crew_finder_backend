@@ -17,8 +17,8 @@ describe('Users API', () =>{
 
         const completeUserData = {
             fullName: "Test Name",
-            username: "tUser4",
-            email: "test4@test.com",
+            username: "tUser6",
+            email: "test6@test.com",
             password: "Test123@",
             role: "ADMIN",
             talent: "ACTOR",
@@ -33,22 +33,7 @@ describe('Users API', () =>{
             phoneNumber: "25190000000",
         };
 
-        const userDataWithoutBirthDate = {
-            fullName: "Test Name",
-            username: "tUser4",
-            email: "test4@test.com",
-            password: "Test123@",
-            role: "ADMIN",
-            talent: "ACTOR",
-            otherTalents: "DIRECTOR",
-            verification: "FAMOUS",
-            gender: "MALE",
-            address: {
-                country: "Test country",
-                city: "Test city",
-            },
-            phoneNumber: "25190000000",
-        };
+        
         test('it should respond with 201 created', async () => {
             const response = await request(app)
                 .post('/users')
@@ -62,6 +47,8 @@ describe('Users API', () =>{
             // expect(responseDate).toBe(requestDate);
             // expect(response.body).toMatchObject(userDataWithoutBirthDate);
         });
+
+        
     });
 
 });
