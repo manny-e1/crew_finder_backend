@@ -100,6 +100,8 @@ describe("Users API", () => {
       const email = 'test3@test.com';
       const password = 'Test123@';
 
+      const wEmail = 'testt3@test.com';
+      
       test('it should respond with 200 success logged in', async () => {
         const response = await request(app)
             .post('/users/login')
@@ -107,5 +109,17 @@ describe("Users API", () => {
             .expect('Content-Type', /json/)
             .expect(200);
       });
-  })
+
+      test('it should respond with 404 not found when either credential is incorrect', async () => {
+        const response = await request(app)
+            .post('/users/login')
+            .send({wEmail,password})
+            .expect('Content-Type', /json/)
+            .expect(404);
+
+        expect(response.body).toStrictEqual({
+            message: 'User not found'
+        });
+      });
+  });
 });
