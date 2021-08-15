@@ -65,19 +65,19 @@ describe("Users API", () => {
       phoneNumber: "25190000000",
     };
 
-    // test("it should respond with 201 created", async () => {
-    //   const response = await request(app)
-    //     .post("/users")
-    //     .send(completeUserData)
-    //     .expect("Content-Type", /json/)
-    //     .expect(201);
+    test("it should respond with 201 created", async () => {
+      const response = await request(app)
+        .post("/users")
+        .send(completeUserData)
+        .expect("Content-Type", /json/)
+        .expect(201);
 
-    //   // const requestDate = new Date(completeUserData.birthdate).valueOf();
-    //   // const responseDate = new Date(response.body.birthdate).valueOf();
+      // const requestDate = new Date(completeUserData.birthdate).valueOf();
+      // const responseDate = new Date(response.body.birthdate).valueOf();
 
-    //   // expect(responseDate).toBe(requestDate);
-    //   // expect(response.body).toMatchObject(userDataWithoutBirthDate);
-    // });
+      // expect(responseDate).toBe(requestDate);
+      // expect(response.body).toMatchObject(userDataWithoutBirthDate);
+    });
 
     test("it should respond with 400 bad request, catch missing required field", async () => {
       const response = await request(app)
@@ -99,8 +99,8 @@ describe("Users API", () => {
   describe('Test POST /users/login', () => {
       const email = 'test3@test.com';
       const password = 'Test123@';
-
       const wEmail = 'testt3@test.com';
+      const wPassword = 'Test1123@';
       
       test('it should respond with 200 success logged in', async () => {
         const response = await request(app)
@@ -110,15 +110,29 @@ describe("Users API", () => {
             .expect(200);
       });
 
-      test('it should respond with 404 not found when either credential is incorrect', async () => {
+      test('it should respond with 404 not found when email is incorrect', async () => {
+          const email = wEmail;
         const response = await request(app)
             .post('/users/login')
-            .send({wEmail,password})
+            .send({email,password})
             .expect('Content-Type', /json/)
             .expect(404);
 
         expect(response.body).toStrictEqual({
             message: 'User not found'
+        });
+      });
+
+      test('it should respond with 400 bad request when password is incorrect', async () => {
+          const password = wPassword;
+        const response = await request(app)
+            .post('/users/login')
+            .send({email,password})
+            .expect('Content-Type', /json/)
+            .expect(400);
+
+        expect(response.body).toStrictEqual({
+            message: 'Wrong credentials'
         });
       });
   });
