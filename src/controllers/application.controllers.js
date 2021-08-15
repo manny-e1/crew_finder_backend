@@ -3,13 +3,13 @@ import { ErrorResponse } from "../utils/errorResponse.js";
 import { validationResult } from "express-validator";
 
 async function httpCreateApplication(req,res){
-    let errorMessages = [];
+    let errorMessages = {};
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         errors.array().forEach((error) => {
-            errorMessages.push({param: error.param, message:error.msg});
+            errorMessages[error.param] = error.msg;
         });
-        return res.status(400).json({errors: errorMessages});
+        throw new ErrorResponse(JSON.stringify(errorMessages), 400);
     };
 
     const alreadyApplied = await getApplication({

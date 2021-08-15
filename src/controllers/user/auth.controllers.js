@@ -1,16 +1,17 @@
 import { createUser, forgotPassword, resetPassword, loginUser, confirmEmail } from "../../services/user/auth.js";
 import { generatePasswordHash } from "../../utils/hashpassword.js";
 import { validationResult } from "express-validator";
+import { ErrorResponse } from "../../utils/errorResponse.js";
 
 
 async function httpCreateUser(req,res){
-    let errorMessages = [];
+    let errorMessages = {};
     const errors = validationResult(req);
     if(!errors.isEmpty()){
         errors.array().forEach((error) => {
-            errorMessages.push({param: error.param, message:error.msg});
+            errorMessages[error.param] = error.msg;
         });
-        return res.status(400).json({errors: errorMessages});
+        throw new ErrorResponse(JSON.stringify(errorMessages), 400);
     };
 
     req.body.password = await generatePasswordHash(req.body.password);

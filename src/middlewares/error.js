@@ -13,9 +13,9 @@ function errorCatcher(fn){
 
 function errorHandler (err,_,res,next) {
     const statusCode = err.statusCode || 500;
-    console.log(err);
+    console.log(err.message);
     res.status(statusCode).json({
-        message: err.message,
+        message: JSON.parse(err.message),
     });
 }
 
