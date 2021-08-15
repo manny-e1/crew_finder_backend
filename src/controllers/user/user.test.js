@@ -50,6 +50,24 @@ describe('Users API', () =>{
             phoneNumber: "25190000000",
         };
 
+        const invalidUserData = {
+            fullName: "Test Name",
+            username: "tUser5",
+            email: "test5@test.com",
+            password: "Test123@",
+            role: "ADMIN",
+            talent: "test here",
+            otherTalents: "DIRECTOR",
+            verification: "FAMOUS",
+            birthdate: "2000-01-01",
+            gender: "MALE",
+            address: {
+                country: "Test country",
+                city: "Test city",
+            },
+            phoneNumber: "25190000000",
+        };
+
         
         test('it should respond with 201 created', async () => {
             const response = await request(app)
@@ -69,6 +87,14 @@ describe('Users API', () =>{
             const response = await request(app)
                 .post('/users')
                 .send(userDataWithoutBirthDate)
+                .expect('Content-Type', /json/)
+                .expect(400);
+        });
+
+        test('it should respond with 400, when invalid data is given', async () => {
+            const response = await request(app)
+                .post('/users')
+                .send(invalidUserData)
                 .expect('Content-Type', /json/)
                 .expect(400);
         });
