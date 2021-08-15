@@ -26,10 +26,15 @@ async function deleteApplication(id){
     return ApplicationModel.findByIdAndDelete(id);
 }
 
+async function deleteApplications(){
+    return ApplicationModel.deleteMany();
+}
+
 export {
     createApplication,
     getApplications,
     getApplication,
     updateApplication,
     deleteApplication,
+    deleteApplications,
 }

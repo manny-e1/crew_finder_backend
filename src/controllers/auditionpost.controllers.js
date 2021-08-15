@@ -1,4 +1,4 @@
-import { createAuditionPost, deleteAuditionPost, getAuditionPost, getAuditionPosts, updateAuditionPost } from "../services/auditionpost.services.js";
+import { createAuditionPost, deleteAuditionPost, deleteAuditionPosts, getAuditionPost, getAuditionPosts, updateAuditionPost } from "../services/auditionpost.services.js";
 import { ErrorResponse } from "../utils/errorResponse.js";
 import { validationResult } from "express-validator";
 
@@ -43,10 +43,17 @@ async function httpDeleteAuditionPost(req,res) {
             .json(await deleteAuditionPost(req.params.id));
 }
 
+async function httpDeleteAuditionPosts(req,res) {
+    return res
+            .status(200)
+            .json(await deleteAuditionPosts());
+}
+
 export {
     httpCreateAuditionPost,
     httpUpdateAuditionPost,
     httpGetAuditionPosts,
     httpGetAuditionPost,
     httpDeleteAuditionPost,
+    httpDeleteAuditionPosts,
 }

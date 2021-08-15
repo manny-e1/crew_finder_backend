@@ -1,12 +1,15 @@
 import { Router } from 'express';
 import { httpForgotPassword, httpCreateUser, httpLoginUser, httpResetPassword, httpConfirmEmail } from '../controllers/user/auth.controllers.js';
-import { httpDeleteUser, httpGetUsers } from '../controllers/user/user.contollers.js';
+import { httpDeleteUser, httpDeleteUsers, httpGetUsers } from '../controllers/user/user.contollers.js';
 import { isDirectorOrProducer } from '../middlewares/elevatedRole.js';
 import { errorCatcher } from '../middlewares/error.js';
 import  validateUser  from '../validation/user/user.validate.js';
 const router = Router();
 
-router.route('/').post(validateUser, errorCatcher(httpCreateUser)).get(httpGetUsers);
+router.route('/')
+    .post(validateUser, errorCatcher(httpCreateUser))
+    .get(httpGetUsers)
+    .delete(errorCatcher(httpDeleteUsers));
 router.route('/:id').delete(errorCatcher(httpDeleteUser));
 router.route('/login').post(errorCatcher(httpLoginUser));
 router.route("/forgotpassword").post(errorCatcher(httpForgotPassword));

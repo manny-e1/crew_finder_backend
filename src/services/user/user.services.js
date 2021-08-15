@@ -12,9 +12,14 @@ async function deleteUser(id){
     return UserModel.findByIdAndDelete(id);
 }
 
+async function deleteUsers() {
+    return UserModel.deleteMany();
+}
+
 
 export {
     getUser,
     getUsers,
-    deleteUser
+    deleteUser,
+    deleteUsers
 }

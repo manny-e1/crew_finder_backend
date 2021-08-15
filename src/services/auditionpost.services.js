@@ -26,10 +26,15 @@ async function deleteAuditionPost(id){
     return AuditionPostModel.findByIdAndDelete(id);
 }
 
+async function deleteAuditionPosts(){
+    return AuditionPostModel.deleteMany();
+}
+
 export {
     createAuditionPost,
     getAuditionPosts,
     getAuditionPost,
     updateAuditionPost,
     deleteAuditionPost,
+    deleteAuditionPosts,
 }
