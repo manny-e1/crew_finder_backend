@@ -14,10 +14,12 @@ const auditionPostSchema = mongoose.Schema({
         type: String,
         required: true,
     },
-    talents: {
-        type: String,
-        enum: Object.values(TALENT),
-    },  
+    talents: [
+        {
+            type: String,
+            enum: Object.values(TALENT),
+        }
+    ],  
     isAcceptingApplication: {
         type: Boolean,
         default: true,

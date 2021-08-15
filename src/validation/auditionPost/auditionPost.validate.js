@@ -3,8 +3,6 @@ import { TALENT } from '../../constants/enums.constants.js';
 
 const validateAuditionPost = [
     body('title')
-        .isEmpty()
-        .withMessage('title can not be empty')
         .isString()
         .withMessage('Title of Audition Post should be String!'),
     body('text')
@@ -14,12 +12,10 @@ const validateAuditionPost = [
         .withMessage('Audition Post text should range 10 - 200 characters!'),
     body('talents')
         .isArray()
-        .withMessage('Talent of Audition Post should be an Array!')
+        .withMessage('Talent of Audition Post should be an Array!'),
+    body('talents.*')
         .isIn(Object.values(TALENT))
         .withMessage('Talent is not found!'),
-    body('isAcceptingApplication')
-        .isBoolean()
-        .withMessage('isAcceptingApplication should be a boolean'),
 
 ];
 
