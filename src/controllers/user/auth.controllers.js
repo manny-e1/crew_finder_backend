@@ -18,7 +18,6 @@ async function httpCreateUser(req,res){
     await createUser(req.body, req.headers.host);
     return res
             .status(201)
-            .json(req.body)
             .json("success");
 
 }
