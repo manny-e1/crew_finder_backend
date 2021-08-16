@@ -10,13 +10,13 @@ async function createAuditionPost(body,author){
 async function getAuditionPosts(){
     return AuditionPostModel
             .find()
-            .populate('author', 'id fullName');
+            .populate('author', 'id fullName role verification');
 }
 
 async function getAuditionPost(id){
     return AuditionPostModel
             .findById(id)
-            .populate('author', 'id fullName');
+            .populate('author', 'id fullName role verification');
 }
 
 async function updateAuditionPost(id, body){
@@ -34,6 +34,11 @@ async function deleteAuditionPosts(){
     return AuditionPostModel.deleteMany();
 }
 
+async function getApplicationCount(id){
+    const auditionPost = await getAuditionPost(id);
+    return auditionPost.applicationCount;
+}
+
 export {
     createAuditionPost,
     getAuditionPosts,
@@ -41,4 +46,5 @@ export {
     updateAuditionPost,
     deleteAuditionPost,
     deleteAuditionPosts,
+    getApplicationCount
 }

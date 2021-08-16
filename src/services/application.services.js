@@ -1,10 +1,14 @@
 import ApplicationModel from "../models/application.mongoose.js";
+import { getAuditionPost, getApplicationCount, updateAuditionPost } from "./auditionpost.services.js";
 
 async function createApplication(body,applicantId){
-    return ApplicationModel.create({
+    const newApplication = await ApplicationModel.create({
         ...body,
         applicantId
     })
+    const applicationCount = await getApplicationCount(body.auditionPostId) + 1;
+    await updateAuditionPost(body.auditionPostId, {applicationCount});
+    return newApplication;
 }
 
 async function getApplications(){
@@ -23,6 +27,14 @@ async function updateApplication(id, body){
 }
 
 async function deleteApplication(id){
+    const application = await getApplication({_id:id});
+    const auditionPost = await getAuditionPost(application.auditionPostId);
+    if (auditionPost) {
+        console.log(auditionPost._id);
+        const applicationCount = await getApplicationCount(auditionPost._id) - 1;
+        console.log(applicationCount);
+        await updateAuditionPost(auditionPost._id, {applicationCount});
+    }
     return ApplicationModel.findByIdAndDelete(id);
 }
 

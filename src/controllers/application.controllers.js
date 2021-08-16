@@ -20,7 +20,7 @@ async function httpCreateApplication(req,res){
 
     return res
             .status(201)
-            .json(await createApplication(req.body,req.user._id));
+            .json(createApplication(req.body,req.user._id));
 }
 
 async function httpGetApplications(req,res){

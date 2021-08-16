@@ -20,6 +20,10 @@ const auditionPostSchema = mongoose.Schema({
             enum: Object.values(TALENT),
         }
     ],  
+    applicationCount: {
+        type: Number,
+        default: 0
+    },
     isAcceptingApplication: {
         type: Boolean,
         default: true,
