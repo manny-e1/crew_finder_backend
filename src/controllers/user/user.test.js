@@ -95,4 +95,45 @@ describe("Users API", () => {
         .expect(400);
     });
   });
+
+  describe('Test POST /users/login', () => {
+      const email = 'test3@test.com';
+      const password = 'Test123@';
+      const wEmail = 'testt3@test.com';
+      const wPassword = 'Test1123@';
+      
+      test('it should respond with 200 success logged in', async () => {
+        const response = await request(app)
+            .post('/users/login')
+            .send({email,password})
+            .expect('Content-Type', /json/)
+            .expect(200);
+      });
+
+      test('it should respond with 404 not found when email is incorrect', async () => {
+          const email = wEmail;
+        const response = await request(app)
+            .post('/users/login')
+            .send({email,password})
+            .expect('Content-Type', /json/)
+            .expect(404);
+
+        expect(response.body).toStrictEqual({
+            message: 'User not found'
+        });
+      });
+
+      test('it should respond with 400 bad request when password is incorrect', async () => {
+          const password = wPassword;
+        const response = await request(app)
+            .post('/users/login')
+            .send({email,password})
+            .expect('Content-Type', /json/)
+            .expect(400);
+
+        expect(response.body).toStrictEqual({
+            message: 'Wrong credentials'
+        });
+      });
+  });
 });
