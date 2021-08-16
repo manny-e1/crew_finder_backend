@@ -1,6 +1,9 @@
 import { body } from "express-validator";
 
 const validateApplicationLetter = [
+    body('auditionPostId')
+        .isString()
+        .withMessage('AuditionPostId should be String'),
     body('applicationLetter')
         .isString()
         .withMessage('Application Letter should be String')
