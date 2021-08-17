@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import request from "supertest";
 import app from "../../app";
 
@@ -209,6 +210,24 @@ describe("Users API", () => {
         expect(response.body).toStrictEqual({
           message: 'Invalid Token'
         });
+    });
+  });
+
+  describe('Test DELETE /users/id', () => {
+    test('it should respond 200 after deleting a user with the specified id', async () =>{
+        const _id = '61190c7912100c37f0bb3555';        
+        const response = await request(app)
+            .delete(`/users/${_id}`)
+            .expect('Content-Type', /json/)
+            .expect(200);
+    });
+
+    test('it should respond 404 if the specified id does not exit', async () =>{
+        const _id = '61190a7912100c37f0bb3565';
+        const response = await request(app)
+            .delete( `/users/${_id}`)
+            .expect('Content-Type',/json/)
+            .expect(404);
     });
   });
 });
