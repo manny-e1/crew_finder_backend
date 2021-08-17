@@ -14,8 +14,8 @@ describe("Users API", () => {
   describe("Test POST /users", () => {
     const completeUserData = {
       fullName: "Test Name",
-      username: "tUser7",
-      email: "test7@test.com",
+      username: "fikir",
+      email: "fikirmuluken@gmail.com",
       password: "Test123@",
       role: "ADMIN",
       talent: "ACTOR",
@@ -65,19 +65,19 @@ describe("Users API", () => {
       phoneNumber: "25190000000",
     };
 
-    // test("it should respond with 201 created", async () => {
-    //   const response = await request(app)
-    //     .post("/users")
-    //     .send(completeUserData)
-    //     .expect("Content-Type", /json/)
-    //     .expect(201);
+    test("it should respond with 201 created", async () => {
+      const response = await request(app)
+        .post("/users")
+        .send(completeUserData)
+        .expect("Content-Type", /json/)
+        .expect(201);
 
-    //   // const requestDate = new Date(completeUserData.birthdate).valueOf();
-    //   // const responseDate = new Date(response.body.birthdate).valueOf();
+      // const requestDate = new Date(completeUserData.birthdate).valueOf();
+      // const responseDate = new Date(response.body.birthdate).valueOf();
 
-    //   // expect(responseDate).toBe(requestDate);
-    //   // expect(response.body).toMatchObject(userDataWithoutBirthDate);
-    // });
+      // expect(responseDate).toBe(requestDate);
+      // expect(response.body).toMatchObject(userDataWithoutBirthDate);
+    });
 
     test("it should respond with 400 bad request, catch missing required field", async () => {
       const response = await request(app)
@@ -137,11 +137,11 @@ describe("Users API", () => {
       });
   });
 
-  describe('Test POST /users/forgotPassword', () =>{
+  describe('Test POST /users/forgotpassword', () =>{
     test('it should send an email for reset confirmation to the user\'s email', async () => {
         const email = 'test2@test.com';
         const response = await request(app)
-            .post('/users/forgotPassword')
+            .post('/users/forgotpassword')
             .send({email})
             .expect('Content-Type', /json/)
             .expect(200);
@@ -150,7 +150,7 @@ describe("Users API", () => {
     test('it should respond 404 when unregistered email is given', async () => {
       const email = 'testt2@test.com';
       const response = await request(app)
-          .post('/users/forgotPassword')
+          .post('/users/forgotpassword')
           .send({email})
           .expect('Content-Type', /json/)
           .expect(404);
@@ -161,4 +161,28 @@ describe("Users API", () => {
     });
   });
 
+  describe('Test POST /users/passwordreset', () =>{
+    const password = 'NewTestPass1@';
+    test('it should respond with 200 when resetting is successful after providing a new password', async () => {        
+        const token = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4';
+        const response = await request(app)
+            .put(`/users/passwordreset/:${token}`)
+            .send({password})
+            .expect('Content-Type', /json/)
+            .expect(200);
+    });
+
+    test('it should respond 400 when the token needed to reset the password is expired/invalid', async () => {              
+      const token = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4';
+      const response = await request(app)
+          .put(`/users/passwordreset/:${token}`)
+          .send({password})
+          .expect('Content-Type', /json/)
+          .expect(400);
+
+        expect(response.body).toStrictEqual({
+          message: 'Invalid Token'
+        });
+    });
+  });
 });
