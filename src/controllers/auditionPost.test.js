@@ -12,5 +12,34 @@ describe('Audition Post API', () => {
         });
     });
 
-    
+    describe('Test POST /auditionposts', () => {
+        const completeAuditionPost = {
+            author: "611beb96a3bb8634b4de93bf",
+            title: "Test Audition",
+            text: "Testing the audition post here",
+            talents: ['ACTOR'],
+        };
+
+        const incompleteAuditionPost = {
+            author: "611beb96a3bb8634b4de93bf",
+            text: "Testing the audition post here",
+            talents: ['ACTOR'],
+        };
+
+        test('it should respond 201 when the audition post is created', async () =>{
+            const response = await request(app)
+                .post('/auditionposts')
+                .send({completeAuditionPost})
+                .expect('Content-Type', /json/)
+                .expect(201);
+        });
+
+        test('it should respond 400 when the audition post misses a required attribute', async () =>{
+            const response = await request(app)
+                .post('/auditionposts')
+                .send({incompleteAuditionPost})
+                .expect('Content-Type', /json/)
+                .expect(400);
+        });
+    });
 });
