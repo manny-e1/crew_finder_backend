@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import request from "supertest";
 import app from "../../app";
 
@@ -14,8 +15,8 @@ describe("Users API", () => {
   describe("Test POST /users", () => {
     const completeUserData = {
       fullName: "Test Name",
-      username: "tUser6",
-      email: "test6@test.com",
+      username: "tUser7",
+      email: "test7@test.com",
       password: "Test123@",
       role: "ADMIN",
       talent: "ACTOR",
@@ -136,4 +137,107 @@ describe("Users API", () => {
         });
       });
   });
+
+  describe('Test POST /users/forgotpassword', () =>{
+    test('it should send an email for reset confirmation to the user\'s email', async () => {
+        const email = 'test2@test.com';
+        const response = await request(app)
+            .post('/users/forgotpassword')
+            .send({email})
+            .expect('Content-Type', /json/)
+            .expect(200);
+    });
+
+    test('it should respond 404 when unregistered email is given', async () => {
+      const email = 'testt2@test.com';
+      const response = await request(app)
+          .post('/users/forgotpassword')
+          .send({email})
+          .expect('Content-Type', /json/)
+          .expect(404);
+
+        expect(response.body).toStrictEqual({
+          message: 'No email could not be sent'
+        });
+    });
+  });
+
+  describe('Test PUT /users/passwordreset/:resetToken', () =>{
+    const password = 'NewTestPass1@';
+    test('it should respond with 200 when resetting is successful after providing a new password', async () => {        
+        const token = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4';
+        const response = await request(app)
+            .put(`/users/passwordreset/:${token}`)
+            .send({password})
+            .expect('Content-Type', /json/)
+            .expect(200);
+    });
+
+    test('it should respond 400 when the token needed to reset the password is expired/invalid', async () => {              
+      const token = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4';
+      const response = await request(app)
+          .put(`/users/passwordreset/:${token}`)
+          .send({password})
+          .expect('Content-Type', /json/)
+          .expect(400);
+
+        expect(response.body).toStrictEqual({
+          message: 'Invalid Token'
+        });
+    });
+  });
+
+  describe('Test PUT /users/confirm-email/:confirmToken', () =>{
+    test('it should respond with 200 when confirm email is successful', async () => {
+      const confirmToken = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4@';
+        const response = await request(app)
+            .put(`/users/passwordreset/:${confirmToken}`)
+            .expect('Content-Type', /json/)
+            .expect(200);
+
+          expect(response.body).toStrictEqual({
+            message: 'Email confirmation successful'
+          });
+    });
+
+    test('it should respond 400 when the token is expired/invalid', async () => {              
+      const confirmToken = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4';
+      const response = await request(app)
+          .put(`/users/passwordreset/:${confirmToken}`)
+          .expect('Content-Type', /json/)
+          .expect(400);
+
+        expect(response.body).toStrictEqual({
+          message: 'Invalid Token'
+        });
+    });
+  });
+
+  describe('Test DELETE /users/id', () => {
+    test('it should respond 200 after deleting a user with the specified id', async () =>{
+        const _id = '61190c7912100c37f0bb3555';        
+        const response = await request(app)
+            .delete(`/users/${_id}`)
+            .expect('Content-Type', /json/)
+            .expect(200);
+    });
+
+    test('it should respond 404 if the specified id does not exit', async () =>{
+        const _id = '61190a7912100c37f0bb3565';
+        const response = await request(app)
+            .delete( `/users/${_id}`)
+            .expect('Content-Type',/json/)
+            .expect(404);
+    });
+  });
+
+  describe('Test DELETE /users', () => {
+    test('it should respond 200 after deleting all users', async () =>{        
+        const response = await request(app)
+            .delete('/users/')
+            .expect('Content-Type', /json/)
+            .expect(200);
+    });
+  });
+
 });
