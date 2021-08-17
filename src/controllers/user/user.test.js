@@ -214,7 +214,7 @@ describe("Users API", () => {
 
   describe('Test DELETE /users/id', () => {
     test('it should respond 200 after deleting a user with the specified id', async () =>{
-        const _id = '61190c7912100c37f0bb3555';        
+        const _id = '611c0cd7067de52fb03398ee';        
         const response = await request(app)
             .delete(`/users/${_id}`)
             .expect('Content-Type', /json/)
@@ -222,7 +222,7 @@ describe("Users API", () => {
     });
 
     test('it should respond 404 if the specified id does not exit', async () =>{
-        const _id = '61190a7912100c37f0bb3565';
+        const _id = '611c06c7c6de932ca8969219';
         const response = await request(app)
             .delete( `/users/${_id}`)
             .expect('Content-Type',/json/)
