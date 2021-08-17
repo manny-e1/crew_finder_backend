@@ -14,8 +14,8 @@ describe("Users API", () => {
   describe("Test POST /users", () => {
     const completeUserData = {
       fullName: "Test Name",
-      username: "fikir",
-      email: "fikirmuluken@gmail.com",
+      username: "tUser7",
+      email: "test7@test.com",
       password: "Test123@",
       role: "ADMIN",
       talent: "ACTOR",
@@ -161,7 +161,7 @@ describe("Users API", () => {
     });
   });
 
-  describe('Test POST /users/passwordreset', () =>{
+  describe('Test PUT /users/passwordreset/:resetToken', () =>{
     const password = 'NewTestPass1@';
     test('it should respond with 200 when resetting is successful after providing a new password', async () => {        
         const token = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4';
@@ -177,6 +177,32 @@ describe("Users API", () => {
       const response = await request(app)
           .put(`/users/passwordreset/:${token}`)
           .send({password})
+          .expect('Content-Type', /json/)
+          .expect(400);
+
+        expect(response.body).toStrictEqual({
+          message: 'Invalid Token'
+        });
+    });
+  });
+
+  describe('Test PUT /users/confirm-email/:confirmToken', () =>{
+    test('it should respond with 200 when confirm email is successful', async () => {
+      const confirmToken = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4@';
+        const response = await request(app)
+            .put(`/users/passwordreset/:${confirmToken}`)
+            .expect('Content-Type', /json/)
+            .expect(200);
+
+          expect(response.body).toStrictEqual({
+            message: 'Email confirmation successful'
+          });
+    });
+
+    test('it should respond 400 when the token is expired/invalid', async () => {              
+      const confirmToken = 'b085d394f36836ec3dce3ca1eded8dfa3a009fd4';
+      const response = await request(app)
+          .put(`/users/passwordreset/:${confirmToken}`)
           .expect('Content-Type', /json/)
           .expect(400);
 
