@@ -230,4 +230,14 @@ describe("Users API", () => {
             .expect(404);
     });
   });
+
+  describe('Test DELETE /users', () => {
+    test('it should respond 200 after deleting all users', async () =>{        
+        const response = await request(app)
+            .delete('/users/')
+            .expect('Content-Type', /json/)
+            .expect(200);
+    });
+  });
+
 });
