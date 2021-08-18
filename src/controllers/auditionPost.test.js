@@ -103,4 +103,35 @@ describe('Audition Post API', () => {
                 .expect(404);
         });
     });
+
+
+    describe('Test DELETE /auditionposts/id', () => {
+        test('it should respond 200 after deleting a post with the specified id', async () =>{
+            const _id = '611c1d988c08472490c5228a';        
+            const response = await request(app)
+                .delete(`/auditionposts/${_id}`)
+                .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMWMwY2YwMDY3ZGU1MmZiMDMzOThmNCIsImlhdCI6MTYyOTIyODI4Nn0.N6cxvsjse9eJrelrby-sa_aN-xIrRUupJZYLd95xpWI')
+                .expect('Content-Type', /json/)
+                .expect(200);
+        });
+    
+        test('it should respond 404 if the specified id does not exist or is invalid', async () =>{
+            const _id = '611c06c7c6de932ca8969219';
+            const response = await request(app)
+                .delete( `/auditionposts/${_id}`)
+                .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMWMwY2YwMDY3ZGU1MmZiMDMzOThmNCIsImlhdCI6MTYyOTIyODI4Nn0.N6cxvsjse9eJrelrby-sa_aN-xIrRUupJZYLd95xpWI')
+                .expect('Content-Type',/json/)
+                .expect(404);
+        });
+      });
+    
+    //   describe('Test DELETE /auditionposts', () => {
+    //     test('it should respond 200 after deleting all posts', async () =>{        
+    //         const response = await request(app)
+    //             .delete('/auditionposts')
+    //             .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMWMwY2YwMDY3ZGU1MmZiMDMzOThmNCIsImlhdCI6MTYyOTIyODI4Nn0.N6cxvsjse9eJrelrby-sa_aN-xIrRUupJZYLd95xpWI')
+    //             .expect('Content-Type', /json/)
+    //             .expect(200);
+    //     });
+    //   });
 });
