@@ -5,7 +5,7 @@ import app from '../app';
 describe('Application API', () => {
     describe('Test POST /applications', () => {
         const applicationSchema = {
-            auditionPostId: '611c1dd5dd6bca1f38e0690b',
+            auditionPostId: '611c1a8680c836470084a391',
             applicantId: '611c1fdaddddd63e6879b1f7',
             applicationLetter: 'This a test application letter to a test auditionPost'
         };
@@ -121,4 +121,24 @@ describe('Application API', () => {
                 .expect(404);
         });
     });
+
+    describe('Test DELETE /applications/id', () => {
+                test('it should respond 200 after deleting an application with the specified id', async () =>{
+                    const _id = '61215e4d0d95f31b30db2ef3';        
+                    const response = await request(app)
+                        .delete(`/applications/${_id}`)
+                        .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMWMxZmRhZGRkZGQ2M2U2ODc5YjFmNyIsImlhdCI6MTYyOTU2OTg5MH0.RZyU8NgW6yOladmfYRzvUhrq5bA7eZVgG0o8M7s9Efo')
+                        .expect('Content-Type', /json/)
+                        .expect(200);
+                });
+            
+                test('it should respond 404 if the specified id does not exist or is invalid', async () =>{
+                    const _id = '611c06c7c6de932ca8969219';
+                    const response = await request(app)
+                        .delete( `/applications/${_id}`)
+                        .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMWMxZmRhZGRkZGQ2M2U2ODc5YjFmNyIsImlhdCI6MTYyOTU2OTg5MH0.RZyU8NgW6yOladmfYRzvUhrq5bA7eZVgG0o8M7s9Efo')
+                        .expect('Content-Type',/json/)
+                        .expect(404);
+                });
+              });
 });
