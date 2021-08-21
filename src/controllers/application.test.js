@@ -47,4 +47,13 @@ describe('Application API', () => {
                 .expect(400);
         });
     });    
+
+    describe('Test GET /applications', () => {
+        test('it should respond with 200 when fetching applications', async () =>{
+            const response = request(app)
+                .get('/applications')
+                .expect('Content-Type',/json/)
+                .expect(200);
+        });
+    });
 });
