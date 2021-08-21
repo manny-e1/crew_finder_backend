@@ -110,5 +110,15 @@ describe('Application API', () => {
                 .expect('Content-Type',/json/)
                 .expect(403);
         });
+
+        test('it should respond with 404 when trying to update unExisting application', async () => {
+            const _id = '61214460b53c90193c3cbf34';
+            const response = await request(app)
+                .put(`/applications/${_id}`)
+                .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxMWMxZmRhZGRkZGQ2M2U2ODc5YjFmNyIsImlhdCI6MTYyOTU2OTg5MH0.RZyU8NgW6yOladmfYRzvUhrq5bA7eZVgG0o8M7s9Efo')
+                .send(updateApplicationSchema)
+                .expect('Content-Type',/json/)
+                .expect(404);
+        });
     });
 });
