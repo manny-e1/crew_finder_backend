@@ -9,7 +9,11 @@ async function getUsers(){
 } 
 
 async function deleteUser(id){
-    return UserModel.findByIdAndDelete(id);
+
+    await UserModel.findByIdAndDelete(id);
+    return {
+        message: "Success", 
+    }
 }
 
 async function deleteUsers() {
