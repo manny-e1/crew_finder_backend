@@ -5,6 +5,7 @@ import { ErrorResponse } from "../../utils/errorResponse.js";
 
 
 async function httpCreateUser(req,res){
+    console.log(req.body)
     let errorMessages = {};
     const errors = validationResult(req);
     if(!errors.isEmpty()){
@@ -18,7 +19,7 @@ async function httpCreateUser(req,res){
     await createUser(req.body, req.headers.host);
     return res
             .status(201)
-            .json("success");
+            .json("A confirmation mail has been sent to you, please confirm your email address");
 
 }
 

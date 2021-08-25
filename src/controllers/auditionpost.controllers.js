@@ -18,9 +18,14 @@ async function httpCreateAuditionPost(req,res){
 }
 
 async function httpGetAuditionPosts(req,res){
+    if (req.query.talents && req.query.talents["in"]) req.query.talents["in"] = req.query.talents["in"].split(",");
+    console.log(req.query.talents);
+    const queryStr = JSON
+                        .stringify({ ...req.query })
+                        .replace(/\b(gt|lt|lte|gte|in)\b/g, match => `$${match}` );
     return res
             .status(200)
-            .json(await getAuditionPosts());
+            .json(await getAuditionPosts(JSON.parse(queryStr)));
 }
 
 async function httpGetAuditionPost(req,res){

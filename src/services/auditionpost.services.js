@@ -7,9 +7,10 @@ async function createAuditionPost(body,author){
     })
 }
 
-async function getAuditionPosts(){
+async function getAuditionPosts(filter){
+    console.log(filter)
     return AuditionPostModel
-            .find()
+            .find(filter)
             .populate('author', 'id fullName role verification');
 }
 
