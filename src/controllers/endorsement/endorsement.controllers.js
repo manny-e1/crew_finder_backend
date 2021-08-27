@@ -12,10 +12,10 @@ async function httpGetAllEndorsements (_,res) {
     .json(await getAllEndorsements());
 }
 
-async function httpGetEndorsementById (req,res) {
+function httpGetEndorsementById (req,res) {
   res
     .status(200)
-    .json(await getEndorsementByID(req.params.id));
+    .json(getEndorsementByID(req.params.id));
 }
 
 async function httpGetGivenEndorsements (_,res) {

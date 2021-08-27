@@ -1,4 +1,5 @@
 import EndorsementModel from "../models/endorsement.model.js";
+import { ErrorResponse } from "../utils/errorResponse.js";
 
 async function endorseUser(endorserId, endorseeId) {
   return EndorsementModel.create({
@@ -12,7 +13,9 @@ async function getAllEndorsements() {
 }
 
 async function getEndorsementByID(id) {
-  return EndorsementModel.findById(id);
+  const endorsement = await EndorsementModel.findById(id);
+  if (!endorsement) throw new ErrorResponse("Endorsement not found", 404);
+  return endorsement;
 }
 
 async function getGivenEndorsements(endorserId) {
