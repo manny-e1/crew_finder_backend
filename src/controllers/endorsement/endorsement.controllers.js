@@ -1,9 +1,9 @@
-import { endorseUser, getAllEndorsements, getEndorsementByID, getGivenEndorsements, getReceivedEndorsements } from "../../services/endorsement.services";
+import { endorseUser, getAllEndorsements, getEndorsementByID, getGivenEndorsements, getReceivedEndorsements } from "../../services/endorsement.services.js";
 
 async function httpEndorseUser (req,res) {
   res
     .status(201)
-    .json(await endorseUser(req.user._id, res.body.endorseeId));
+    .json(await endorseUser(req.user._id, req.body.endorseeId));
 }
 
 async function httpGetAllEndorsements (_,res) {
@@ -18,16 +18,16 @@ function httpGetEndorsementById (req,res) {
     .json(getEndorsementByID(req.params.id));
 }
 
-async function httpGetGivenEndorsements (_,res) {
+async function httpGetGivenEndorsements (req,res) {
   res
     .status(200)
-    .json(await getGivenEndorsements(res.body.endorserId));
+    .json(await getGivenEndorsements(req.user._id));
 }
 
-async function httpGetReceivedEndorsements (_,res) {
+async function httpGetReceivedEndorsements (req,res) {
   res
     .status(200)
-    .json(await getReceivedEndorsements(res.body.endorseeId));
+    .json(await getReceivedEndorsements(req.params.endorseeId));
 }
 
 export {
