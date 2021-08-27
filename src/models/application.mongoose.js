@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import { STATUS } from '../constants/enums.constants.js';
+
 
 const applicationSchema = mongoose.Schema({
     auditionPostId: {
@@ -15,6 +17,11 @@ const applicationSchema = mongoose.Schema({
         type: String,
         required: true,
     }, 
+    applicationStatus: {
+        type: String,
+        default: STATUS.PENDING,
+        enum: Object.values(STATUS),
+    }
 }, {
     timestamps: true,
 })

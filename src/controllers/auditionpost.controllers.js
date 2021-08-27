@@ -18,7 +18,7 @@ async function httpCreateAuditionPost(req,res){
 }
 
 async function httpGetAuditionPosts(req,res){
-    if (req.query.talents && req.query.talents["in"]) req.query.talents["in"] = req.query.talents["in"].split(",");
+    if (req.query.talents && req.query.talents["in"]) req.query.talents["in"] = req.query.talents["in"].split(",").map(talent => talent.toUpperCase());
     console.log(req.query.talents);
     const queryStr = JSON
                         .stringify({ ...req.query })

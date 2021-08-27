@@ -17,7 +17,7 @@ async function getAuditionPosts(filter){
 async function getAuditionPost(id){
     return AuditionPostModel
             .findById(id)
-            .populate('author', 'id fullName role verification');
+            .populate('author');
 }
 
 async function updateAuditionPost(id, body){

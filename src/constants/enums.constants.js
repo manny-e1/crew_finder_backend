@@ -37,3 +37,9 @@ export const GENDER = Object.freeze({
     MALE: "MALE",
     FEMALE: "FEMALE"
 })
+
+export const STATUS = Object.freeze({
+    PENDING: "PENDING",
+    APPROVED: "APPROVED",
+    REJECTED: "REJECTED"
+})

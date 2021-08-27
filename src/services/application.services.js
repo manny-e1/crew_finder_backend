@@ -15,6 +15,10 @@ async function getApplications(){
     return ApplicationModel.find();
 }
 
+async function getAuditionPostApplications(auditionPostId){
+    return ApplicationModel.find({auditionPostId:auditionPostId})
+}
+
 async function getApplication(filter){
     return ApplicationModel.findOne(filter);
 }
@@ -45,6 +49,7 @@ async function deleteApplications(){
 export {
     createApplication,
     getApplications,
+    getAuditionPostApplications,
     getApplication,
     updateApplication,
     deleteApplication,
