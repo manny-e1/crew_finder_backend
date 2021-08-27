@@ -1,5 +1,5 @@
-import { createAuditionPost, deleteAuditionPost, deleteAuditionPosts, getAuditionPost, getAuditionPosts, updateAuditionPost } from "../services/auditionpost.services.js";
-import { ErrorResponse } from "../utils/errorResponse.js";
+import { createAuditionPost, deleteAuditionPost, deleteAuditionPosts, getAuditionPost, getAuditionPosts, updateAuditionPost } from "../../services/auditionpost.services.js";
+import { ErrorResponse } from "../../utils/errorResponse.js";
 import { validationResult } from "express-validator";
 
 async function httpCreateAuditionPost(req,res){

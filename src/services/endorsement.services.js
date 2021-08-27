@@ -22,3 +22,11 @@ async function getGivenEndorsements(endorserId) {
 async function getReceivedEndorsements(endorseeId) {
   return EndorsementModel.find({endorseeId});
 }
+
+export {
+  endorseUser,
+  getAllEndorsements,
+  getEndorsementByID,
+  getGivenEndorsements,
+  getReceivedEndorsements
+}

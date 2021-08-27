@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { httpCreateApplication, httpDeleteApplication, httpDeleteApplications, httpGetApplication, httpGetApplications, httpGetAuditionPostApplications, httpUpdateApplication } from '../controllers/application.controllers.js';
+import { httpCreateApplication, httpDeleteApplication, httpDeleteApplications, httpGetApplication, httpGetApplications, httpGetAuditionPostApplications, httpUpdateApplication } from '../controllers/application/application.controllers.js';
 import { errorCatcher } from '../middlewares/error.js';
 import { isAuthenticated } from '../middlewares/isAuthenticated..js';
 import validateApplicationLetter from '../validation/application/application.validate.js';

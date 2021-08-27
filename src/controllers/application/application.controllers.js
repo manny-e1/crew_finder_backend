@@ -1,5 +1,5 @@
-import { createApplication, deleteApplication, deleteApplications, getApplication, getApplications, getAuditionPostApplications, updateApplication } from "../services/application.services.js";
-import { ErrorResponse } from "../utils/errorResponse.js";
+import { createApplication, deleteApplication, deleteApplications, getApplication, getApplications, getAuditionPostApplications, updateApplication } from "../../services/application.services.js";
+import { ErrorResponse } from "../../utils/errorResponse.js";
 import { validationResult } from "express-validator";
 
 async function httpCreateApplication(req,res){
