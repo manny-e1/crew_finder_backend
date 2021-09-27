@@ -55,16 +55,18 @@ async function httpDeleteUser(req, res) {
 }
 
 async function httpUpdateSelf(req, res) {
-  console.log('here');
-  if (
-    req.file &&
-    !req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/)
-  ) {
-    throw new error('Only image files (jpg, jpeg, png) are allowed!', 400);
+  console.log(req.file);
+  let body = {};
+  if (req.file && req.file.path) {
+    console.log(req.file.path);
+    if (!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/))
+      throw new error('Only image files (jpg, jpeg, png) are allowed!', 400);
+    body = {
+      avatar: req.file.path,
+    };
   }
-  // console.log(req.file.path);
 
-  res.status(200).json(await updateSelf(req.user._id, req.body));
+  res.status(200).json(await updateSelf(req.user._id, body));
 }
 
 async function httpDeleteUsers(req, res) {

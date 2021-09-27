@@ -58,6 +58,7 @@ async function updateSelf(id, body) {
     otherTalents: user.otherTalents,
     username: user.username,
     talent: user.talent,
+    avatar: user.avatar,
     token,
   };
 }

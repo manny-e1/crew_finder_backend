@@ -1,8 +1,15 @@
-import { Router } from "express";
-import { httpEndorseUser, httpGetAllEndorsements, httpGetEndorsementById, httpGetGivenEndorsements, httpGetReceivedEndorsements } from "../controllers/endorsement/endorsement.controllers.js";
-import { isAdmin, isDirectorOrProducer } from "../middlewares/elevatedRole.js";
-import { errorCatcher } from "../middlewares/error.js";
-import { isAuthenticated } from "../middlewares/isAuthenticated..js";
+import { Router } from 'express';
+import {
+  httpDeleteEndorsements,
+  httpEndorseUser,
+  httpGetAllEndorsements,
+  httpGetEndorsementById,
+  httpGetGivenEndorsements,
+  httpGetReceivedEndorsements,
+} from '../controllers/endorsement/endorsement.controllers.js';
+import { isAdmin, isDirectorOrProducer } from '../middlewares/elevatedRole.js';
+import { errorCatcher } from '../middlewares/error.js';
+import { isAuthenticated } from '../middlewares/isAuthenticated..js';
 
 const router = Router();
 
@@ -13,11 +20,8 @@ router
     errorCatcher(isDirectorOrProducer),
     errorCatcher(httpEndorseUser)
   )
-  .get(
-    errorCatcher(isAuthenticated),
-    errorCatcher(isAdmin),
-    errorCatcher(httpGetAllEndorsements)
-  );
+  .get(errorCatcher(isAuthenticated), errorCatcher(httpGetAllEndorsements))
+  .delete(errorCatcher(httpDeleteEndorsements));
 router
   .route('/given')
   .get(
@@ -33,9 +37,6 @@ router
   );
 router
   .route('/:id')
-  .get(
-    errorCatcher(isAuthenticated),
-    errorCatcher(httpGetEndorsementById)
-  );
+  .get(errorCatcher(isAuthenticated), errorCatcher(httpGetEndorsementById));
 
 export default router;

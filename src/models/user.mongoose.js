@@ -1,75 +1,89 @@
 import crypto from 'crypto';
 import mongoose from 'mongoose';
-import { GENDER, ROLE, TALENT, VERIFICATION } from '../constants/enums.constants.js';
-const userSchema = mongoose.Schema({
+import {
+  GENDER,
+  ROLE,
+  TALENT,
+  VERIFICATION,
+} from '../constants/enums.constants.js';
+const userSchema = mongoose.Schema(
+  {
     fullName: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     username: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     email: {
-        type: String,
-        required: true,
-        unique: true,
+      type: String,
+      required: true,
+      unique: true,
     },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true,
     },
     isActive: {
-        type: Boolean,
-        required: true,
-        default: false,
+      type: Boolean,
+      required: true,
+      default: false,
     },
     role: {
-        type: String,
-        required: true,
-        enum: Object.values(ROLE),
+      type: String,
+      required: true,
+      enum: Object.values(ROLE),
     },
     talent: {
-        type: String,
-        enum: Object.values(TALENT),
+      type: String,
+      enum: Object.values(TALENT),
     },
     otherTalents: [
-        {
-            type: String,
-            enum: Object.values(TALENT),
-        }
+      {
+        type: String,
+        enum: Object.values(TALENT),
+      },
     ],
     verification: {
-        type: String,
-        enum: Object.values(VERIFICATION),
+      type: String,
+      enum: Object.values(VERIFICATION),
     },
     birthdate: {
-        type: Date,
-        required: true
+      type: Date,
+      required: true,
     },
     gender: {
-        type: String,
-        required: true,
-        enum: Object.values(GENDER),
+      type: String,
+      required: true,
+      enum: Object.values(GENDER),
     },
     address: {
-        country: {
-            type: String,
-            required: true
-        },
-        region: {
-            type: String,
-            required: true
-        },
+      country: {
+        type: String,
+        required: true,
+      },
+      region: {
+        type: String,
+        required: true,
+      },
     },
+    avatar: String,
+    bio: String,
+    links: [String],
+    showcasePics: [String],
+    showcaseVids: [String],
+    certifications: [String],
     phoneNumber: String,
     token: String,
-    tokenExpiration: Date
-}, {
+    tokenExpiration: Date,
+  },
+  {
     timestamps: true,
-})
+  }
+);
 
-const UserModel = mongoose.model('User', userSchema)
+const UserModel = mongoose.model('User', userSchema);
 
-export default UserModel
+export default UserModel;

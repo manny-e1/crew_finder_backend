@@ -1,20 +1,50 @@
-import { ROLE } from "../constants/enums.constants.js";
-import EndorsementModel from "../models/endorsement.model.js";
-import { ErrorResponse } from "../utils/errorResponse.js";
-import { getUser } from "./user/user.services.js";
+import { ROLE, VERIFICATION } from '../constants/enums.constants.js';
+import EndorsementModel from '../models/endorsement.model.js';
+import UserModel from '../models/user.mongoose.js';
+import { ErrorResponse } from '../utils/errorResponse.js';
+import { getUser } from './user/user.services.js';
 
 async function endorseUser(endorserId, endorseeId) {
-  const endorsee = await getUser({_id:endorseeId});
+  const endorsee = await getUser({ _id: endorseeId });
   if (!endorsee) {
     console.log(ok);
-    throw new ErrorResponse("User not found", 404);
-  } 
+    throw new ErrorResponse('User not found', 404);
+  }
   console.log(endorsee);
-  if (endorsee.role === ROLE.PRO_DIRECTOR) throw new ErrorResponse("Can't endorse directors or producers", 400);
-  return EndorsementModel.create({
-    endorserId,
-    endorseeId
+  if (endorsee.role === ROLE.PRO_DIRECTOR)
+    throw new ErrorResponse("Can't endorse directors or producers", 400);
+  const alreadyEndorsed = await EndorsementModel.findOne({
+    endorserId: endorserId,
+    endorseeId: endorseeId,
   });
+
+  if (alreadyEndorsed)
+    throw new Error('You have already endorsed this user', 400);
+  const endorsed = await EndorsementModel.create({
+    endorserId,
+    endorseeId,
+  });
+  const famous = await UserModel.find({
+    $and: [{ role: ROLE.PRO_DIRECTOR }, { verification: VERIFICATION.FAMOUS }],
+  });
+
+  const famousIds = famous?.map((fam) => fam._id);
+
+  const endorsementCount = await EndorsementModel.find({
+    $and: [
+      { endorseeId: endorseeId },
+      {
+        endorserId: { $in: [...famousIds] },
+      },
+    ],
+  });
+  if (endorsementCount > 5) {
+    await UserModel.updateOne(
+      { _id: endorseeId },
+      { verification: VERIFICATION.ENDORSED }
+    );
+  }
+  return endorsed;
 }
 
 async function getAllEndorsements() {
@@ -23,16 +53,20 @@ async function getAllEndorsements() {
 
 async function getEndorsementByID(id) {
   const endorsement = await EndorsementModel.findById(id);
-  if (!endorsement) throw new ErrorResponse("Endorsement not found", 404);
+  if (!endorsement) throw new ErrorResponse('Endorsement not found', 404);
   return endorsement;
 }
 
 async function getGivenEndorsements(endorserId) {
-  return EndorsementModel.find({endorserId});
+  return EndorsementModel.find({ endorserId });
 }
 
 async function getReceivedEndorsements(endorseeId) {
-  return EndorsementModel.find({endorseeId});
+  return EndorsementModel.find({ endorseeId });
+}
+
+async function deleteEndorsements() {
+  return EndorsementModel.deleteMany();
 }
 
 export {
@@ -40,5 +74,6 @@ export {
   getAllEndorsements,
   getEndorsementByID,
   getGivenEndorsements,
-  getReceivedEndorsements
-}
+  deleteEndorsements,
+  getReceivedEndorsements,
+};
