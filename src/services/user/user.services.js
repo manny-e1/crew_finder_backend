@@ -1,29 +1,76 @@
-import UserModel from "../../models/user.mongoose.js";
+import { ROLE } from '../../constants/enums.constants.js';
+import UserModel from '../../models/user.mongoose.js';
+import { generateJWT } from '../../utils/generateJWT.js';
 
-async function getUser(filter, projection={}){
-    return UserModel.findOne(filter, projection);   
+async function getUser(filter, projection = {}) {
+  return UserModel.findOne(filter, projection);
 }
 
-async function getUsers(){
-    return UserModel.find();
-} 
+async function getMatchingUsers(query) {
+  return UserModel.find({
+    $or: [
+      {
+        talent: { $regex: query, $options: 'i' },
+      },
+      {
+        fullName: { $regex: query, $options: 'i' },
+      },
+      {
+        username: { $regex: query, $options: 'i' },
+      },
+      {
+        otherTalents: {
+          $in: [new RegExp(query, 'i')],
+        },
+      },
+    ],
+    role: {
+      $in: [ROLE.APPLICANT, ROLE.PRO_DIRECTOR],
+    },
+  });
+}
 
-async function deleteUser(id){
+async function getAllUsers() {
+  return UserModel.find().select('-__v -password');
+}
 
-    await UserModel.findByIdAndDelete(id);
-    return {
-        message: "Success", 
-    }
+async function deleteUser(id) {
+  await UserModel.findByIdAndDelete(id);
+  return {
+    message: 'Success',
+  };
+}
+async function updateSelf(id, body) {
+  await UserModel.updateOne({ _id: id }, body);
+  const user = await UserModel.findById(id).select('-__v -password');
+  const token = await generateJWT(user._id);
+  return {
+    _id: user._id,
+    fullName: user.fullName,
+    email: user.email,
+    role: user.role,
+    isActive: user.isActive,
+    verification: user.verification,
+    phoneNumber: user.phoneNumber,
+    address: user.address,
+    birthdate: user.birthdate,
+    gender: user.gender,
+    otherTalents: user.otherTalents,
+    username: user.username,
+    talent: user.talent,
+    token,
+  };
 }
 
 async function deleteUsers() {
-    return UserModel.deleteMany();
+  return UserModel.deleteMany();
 }
-
 
 export {
-    getUser,
-    getUsers,
-    deleteUser,
-    deleteUsers
-}
+  getUser,
+  getMatchingUsers,
+  getAllUsers,
+  deleteUser,
+  updateSelf,
+  deleteUsers,
+};

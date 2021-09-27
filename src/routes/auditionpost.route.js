@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { httpCreateAuditionPost, httpDeleteAuditionPost, httpDeleteAuditionPosts, httpGetAuditionPost, httpGetAuditionPosts, httpUpdateAuditionPost } from '../controllers/auditionPost/auditionpost.controllers.js';
+import { httpCreateAuditionPost, httpDeleteAuditionPost, httpDeleteAuditionPosts, httpGetAuditionPost, httpGetAuditionPosts, httpGetMatchedAuditionPosts, httpUpdateAuditionPost } from '../controllers/auditionPost/auditionpost.controllers.js';
 import { errorCatcher } from '../middlewares/error.js';
 import { isAuthenticated } from '../middlewares/isAuthenticated..js';
 import validateAuditionPost from '../validation/auditionPost/auditionPost.validate.js';
@@ -19,6 +19,10 @@ router.route('/')
             errorCatcher(isAuthenticated),
             errorCatcher(httpDeleteAuditionPosts)
         );
+router.route('/search')
+    .get(
+        errorCatcher(httpGetMatchedAuditionPosts)
+    );
 
 router.route('/:id')
         .get(
