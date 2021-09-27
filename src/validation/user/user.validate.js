@@ -5,12 +5,14 @@ const validateUser = [
     body('fullName')
         .isString()
         .trim()
-        .withMessage('Full name is need to be a String'),
+        .withMessage('Full name is need to be a String')
+        .isLength({min:3})
+        .withMessage('Length of FullName should not be less than 6'),
     body('username')
         .isString()
         .withMessage('Username should be string')
-        .isLength({max: 6})
-        .withMessage('Length of Username should be less than 6'),
+        .isLength({min: 6})
+        .withMessage('Length of Username should not be less than 6'),
     body('email')
         .isEmail()
         .normalizeEmail()
@@ -24,13 +26,7 @@ const validateUser = [
         .withMessage('Role does not exist!'),
     body('talent')
         .isIn(Object.values(TALENT))
-        .withMessage('Talent does not exist!'),
-    body('otherTalents')
-        .isIn(Object.values(TALENT))
-        .withMessage('Talent does not exist!'),
-    body('verification')
-        .isIn(Object.values(VERIFICATION))
-        .withMessage('Verification does not exist!'),    
+        .withMessage('Talent does not exist!'),   
     body('birthdate')
         .isDate()
         .withMessage('Birth date is required as a date!')
@@ -44,10 +40,7 @@ const validateUser = [
         .withMessage('Gender should be either Male or Female!'),
     body('address')
         .isObject()
-        .withMessage('Address needs to be an Object'),
-    body('phoneNumber')
-        .isMobilePhone()
-        .withMessage('Provide valid phone number!'),    
+        .withMessage('Address needs to be an Object'), 
 
 ];
 

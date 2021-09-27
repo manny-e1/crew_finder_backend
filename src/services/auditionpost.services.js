@@ -1,50 +1,75 @@
-import AuditionPostModel from "../models/auditionPost.mongoose.js";
+import AuditionPostModel from '../models/auditionPost.mongoose.js';
 
-async function createAuditionPost(body,author){
-    return AuditionPostModel.create({
-        ...body,
-        author
-    })
+async function createAuditionPost(body, author) {
+  return AuditionPostModel.create({
+    ...body,
+    author,
+  });
 }
 
-async function getAuditionPosts(){
-    return AuditionPostModel
-            .find()
-            .populate('author', 'id fullName role verification');
+async function getAuditionPosts(filter) {
+  console.log(filter);
+  return AuditionPostModel.find(filter).populate(
+    'author',
+    'id fullName role verification'
+  );
 }
 
-async function getAuditionPost(id){
-    return AuditionPostModel
-            .findById(id)
-            .populate('author', 'id fullName role verification');
+async function getMatchedAuditionPosts(query) {
+  const regexx = new RegExp(query, 'i');
+  return AuditionPostModel.find({
+    $or: [
+      {
+        title: { $regex: query, $options: 'i' },
+      },
+      {
+        region: { $regex: query, $options: 'i' },
+      },
+      {
+        text: { $regex: query, $options: 'i' },
+      },
+      {
+        talents: {
+          $in: [regexx],
+        },
+      },
+      {
+        languages: {
+          $in: [regexx],
+        },
+      },
+    ],
+  });
 }
 
-async function updateAuditionPost(id, body){
-    return AuditionPostModel.updateOne(
-        { _id:id },
-        body
-    );
+async function getAuditionPost(id) {
+  return AuditionPostModel.findById(id).populate('author');
 }
 
-async function deleteAuditionPost(id){
-    return AuditionPostModel.findByIdAndDelete(id);
+async function updateAuditionPost(id, body) {
+  return AuditionPostModel.updateOne({ _id: id }, body);
 }
 
-async function deleteAuditionPosts(){
-    return AuditionPostModel.deleteMany();
+async function deleteAuditionPost(id) {
+  return AuditionPostModel.findByIdAndDelete(id);
 }
 
-async function getApplicationCount(id){
-    const auditionPost = await getAuditionPost(id);
-    return auditionPost.applicationCount;
+async function deleteAuditionPosts() {
+  return AuditionPostModel.deleteMany();
+}
+
+async function getApplicationCount(id) {
+  const auditionPost = await getAuditionPost(id);
+  return auditionPost.applicationCount;
 }
 
 export {
-    createAuditionPost,
-    getAuditionPosts,
-    getAuditionPost,
-    updateAuditionPost,
-    deleteAuditionPost,
-    deleteAuditionPosts,
-    getApplicationCount
-}
+  createAuditionPost,
+  getAuditionPosts,
+  getAuditionPost,
+  updateAuditionPost,
+  deleteAuditionPost,
+  deleteAuditionPosts,
+  getApplicationCount,
+  getMatchedAuditionPosts,
+};
