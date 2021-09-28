@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const connectDatabase = async () => {
   try {
     const connect = await mongoose.connect(
-      'mongodb+srv://teamgeez:teamgeezcrewfinder1!@cluster0.7z7ko.mongodb.net/crew_finder?retryWrites=true&w=majority',
+      'mongodb+srv://teamgeez:teamgeezcrewfinder1@cluster0.7z7ko.mongodb.net/crew_finder?retryWrites=true&w=majority',
       {
         useNewUrlParser: true,
         useCreateIndex: true,
