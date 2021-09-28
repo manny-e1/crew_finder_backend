@@ -1,3 +1,4 @@
+import ApplicationModel from '../models/application.mongoose.js';
 import AuditionPostModel from '../models/auditionPost.mongoose.js';
 
 async function createAuditionPost(body, author) {
@@ -51,7 +52,10 @@ async function updateAuditionPost(id, body) {
 }
 
 async function deleteAuditionPost(id) {
-  return AuditionPostModel.findByIdAndDelete(id);
+  const deleted = await AuditionPostModel.findByIdAndDelete(id);
+  await ApplicationModel.deleteMany({ auditionPostId: id });
+
+  return deleted;
 }
 
 async function deleteAuditionPosts() {

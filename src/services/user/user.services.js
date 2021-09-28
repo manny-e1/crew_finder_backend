@@ -1,4 +1,6 @@
 import { ROLE } from '../../constants/enums.constants.js';
+import ApplicationModel from '../../models/application.mongoose.js';
+import AuditionPostModel from '../../models/auditionPost.mongoose.js';
 import UserModel from '../../models/user.mongoose.js';
 import { generateJWT } from '../../utils/generateJWT.js';
 
@@ -36,6 +38,8 @@ async function getAllUsers() {
 
 async function deleteUser(id) {
   await UserModel.findByIdAndDelete(id);
+  await AuditionPostModel.deleteMany({ author: id });
+  await ApplicationModel.deleteMany({ applicantId: id });
   return {
     message: 'Success',
   };
