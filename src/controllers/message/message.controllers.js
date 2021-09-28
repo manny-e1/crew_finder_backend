@@ -8,6 +8,7 @@ async function httpSendMessage(req, res) {
 }
 
 async function httpRetrieveMessages(req, res) {
+  console.log(req.params.conversationId);
   res.status(200).json(await retrieveMessages(req.params.conversationId));
 }
 

@@ -62,7 +62,10 @@ async function getGivenEndorsements(endorserId) {
 }
 
 async function getReceivedEndorsements(endorseeId) {
-  return EndorsementModel.find({ endorseeId });
+  return EndorsementModel.find({ endorseeId }).populate(
+    'endorserId',
+    'id fullName email'
+  );
 }
 
 async function deleteEndorsements() {

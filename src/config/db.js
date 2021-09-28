@@ -2,14 +2,11 @@ import mongoose from 'mongoose';
 
 const connectDatabase = async () => {
   try {
-    const connect = await mongoose.connect(
-      'mongodb+srv://teamgeez:teamgeezcrewfinder1@cluster0.7z7ko.mongodb.net/crew_finder?retryWrites=true&w=majority',
-      {
-        useNewUrlParser: true,
-        useCreateIndex: true,
-        useUnifiedTopology: true,
-      }
-    );
+    const connect = await mongoose.connect(process.env.MONGO_DB_LOCAL, {
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    });
     console.log(`Database connected: ${connect.connection.host}`);
   } catch (error) {
     console.log(`${error}`);

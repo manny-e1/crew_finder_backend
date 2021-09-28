@@ -16,7 +16,9 @@ async function createApplication(body, applicantId) {
 }
 
 async function getApplications() {
-  return ApplicationModel.find();
+  return ApplicationModel.find()
+    .populate({ path: 'auditionPostId', populate: { path: 'author' } })
+    .populate('applicantId', 'id fullName email role talent');
 }
 
 async function getAuditionPostApplications(auditionPostId) {
