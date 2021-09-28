@@ -37,6 +37,7 @@ router
   .route('/update')
   .put(
     errorCatcher(upload.single('avatar')),
+    errorCatcher(upload.single('showcasePics')),
     errorCatcher(isAuthenticated),
     errorCatcher(httpUpdateSelf)
   );
