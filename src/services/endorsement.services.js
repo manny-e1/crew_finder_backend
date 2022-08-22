@@ -71,6 +71,9 @@ async function getReceivedEndorsements(endorseeId) {
 async function deleteEndorsements() {
   return EndorsementModel.deleteMany();
 }
+async function deleteEndorsement(id) {
+  return EndorsementModel.deleteById(id);
+}
 
 export {
   endorseUser,
@@ -78,5 +81,6 @@ export {
   getEndorsementByID,
   getGivenEndorsements,
   deleteEndorsements,
+  deleteEndorsement,
   getReceivedEndorsements,
 };

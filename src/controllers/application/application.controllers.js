@@ -26,7 +26,7 @@ async function httpCreateApplication(req, res) {
   });
   if (alreadyApplied) throw new ErrorResponse('you have already applied', 400);
 
-  return res.status(201).json(createApplication(req.body, req.user._id));
+  return res.status(201).json(await createApplication(req.body, req.user._id));
 }
 
 async function httpGetApplications(req, res) {
@@ -40,6 +40,7 @@ async function httpGetAuditionPostApplications(req, res) {
 }
 
 async function httpGetApplication(req, res) {
+  console.log(req.body);
   const application = await getApplication({ _id: req.params.id });
   if (!application) {
     throw new ErrorResponse('Application does not exist', 404);

@@ -24,7 +24,7 @@ const router = Router();
 router
   .route('/')
   .post(validateUser, errorCatcher(httpCreateUser))
-  .get(httpGetUsers)
+  .get(isAuthenticated, errorCatcher(httpGetUsers))
   .delete(errorCatcher(httpDeleteUsers));
 router
   .route('/all')

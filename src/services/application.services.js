@@ -23,17 +23,28 @@ async function getApplications() {
 
 async function getAuditionPostApplications(auditionPostId) {
   return ApplicationModel.find({ auditionPostId: auditionPostId })
-    .populate({ path: 'auditionPostId', populate: { path: 'author' } })
-    .populate('applicantId', 'id fullName email role talent');
+    .populate({
+      path: 'auditionPostId',
+      select: 'id',
+      populate: {
+        path: 'author',
+        select: 'id fullName email talent username ',
+      },
+    })
+    .populate('applicantId', 'id fullName email role talent username');
 }
 
 async function getApplication(filter) {
-  return ApplicationModel.findOne(filter);
+  return ApplicationModel.findOne(filter).populate(
+    'applicantId',
+    'id fullName email talent role verification'
+  );
 }
 
 async function updateApplication(id, body) {
-  await ApplicationModel.updateOne({ _id: id }, body);
-  return getApplication({ _id: id });
+  console.log('id: ', id);
+  console.log('body: ', body);
+  return ApplicationModel.updateOne({ _id: id }, body);
 }
 
 async function deleteApplication(id) {

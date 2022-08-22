@@ -33,25 +33,17 @@ async function createUser(userInfo, host) {
 async function loginUser({ email, password }) {
   const user = await getUser({ email });
 
-  if (!user) throw new ErrorResponse('User not found', 404);
+  if (!user) throw new ErrorResponse('Wrong credentials', 404);
   const matchPassword = await validatePassword(password, user.password);
 
-  if (!matchPassword) throw new ErrorResponse('Wrong credentials', 400);
+  if (!matchPassword) throw new ErrorResponse('Wrong credentials', 404);
 
   const token = await generateJWT(user._id);
+
   return {
-    _id: user._id,
-    fullName: user.fullName,
-    email: user.email,
+    id: user._id,
     role: user.role,
     isActive: user.isActive,
-    verification: user.verification,
-    phoneNumber: user.phoneNumber,
-    address: user.address,
-    birthdate: user.birthdate,
-    gender: user.gender,
-    otherTalents: user.otherTalents,
-    username: user.username,
     talent: user.talent,
     token,
   };

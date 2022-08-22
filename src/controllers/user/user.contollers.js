@@ -61,11 +61,12 @@ async function httpUpdateSelf(req, res) {
     console.log(req.file.path);
     if (!req.file.originalname.match(/\.(jpg|JPG|jpeg|JPEG|png|PNG)$/))
       throw new error('Only image files (jpg, jpeg, png) are allowed!', 400);
-    body = {
+    Object.assign(body, {
       showcasePics: req.file.path,
-    };
+    });
   }
-  body = { ...req.body };
+
+  body = { ...body, ...req.body };
 
   res.status(200).json(await updateSelf(req.user._id, body));
 }

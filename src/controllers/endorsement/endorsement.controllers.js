@@ -1,4 +1,5 @@
 import {
+  deleteEndorsement,
   deleteEndorsements,
   endorseUser,
   getAllEndorsements,
@@ -29,6 +30,9 @@ async function httpGetReceivedEndorsements(req, res) {
 async function httpDeleteEndorsements(req, res) {
   res.status(200).json(await deleteEndorsements());
 }
+async function httpDeleteEndorsement(req, res) {
+  res.status(200).json(await deleteEndorsement(req.params.id));
+}
 
 export {
   httpEndorseUser,
@@ -37,4 +41,5 @@ export {
   httpGetGivenEndorsements,
   httpGetReceivedEndorsements,
   httpDeleteEndorsements,
+  httpDeleteEndorsement,
 };

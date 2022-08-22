@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import {
+  httpDeleteEndorsement,
   httpDeleteEndorsements,
   httpEndorseUser,
   httpGetAllEndorsements,
@@ -37,6 +38,7 @@ router
   );
 router
   .route('/:id')
-  .get(errorCatcher(isAuthenticated), errorCatcher(httpGetEndorsementById));
+  .get(errorCatcher(isAuthenticated), errorCatcher(httpGetEndorsementById))
+  .delete(errorCatcher(isAuthenticated), errorCatcher(httpDeleteEndorsement));
 
 export default router;

@@ -1,0 +1,26 @@
+@contentType = application/json
+
+
+POST  http://localhost:5000/users HTTP/1.1
+Content-Type: {{contentType}}
+
+{
+  "fullName": "Frew Befkadu",
+  "username": "fresh1",
+  "email":"frewbef@gmail.com",
+  "password": "Anteneh23!",
+  "isActive": true,
+  "role": "APPLICANT",
+  "talent": "ACTOR",
+  "otherTalents": [
+    "CINEMATOGRAPHER",
+    "SCRIPT SUPERVISOR"
+  ],
+  "birthdate": "1998/10/16",
+  "gender": "MALE",
+  "phoneNumber": "0943946006",
+  "address": {
+    "country": "Ethiopia",
+    "region": "Addis Ababa"
+  }
+}
