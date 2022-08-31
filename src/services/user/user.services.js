@@ -29,7 +29,7 @@ async function getMatchingUsers(query) {
     role: {
       $in: [ROLE.APPLICANT, ROLE.PRO_DIRECTOR],
     },
-  });
+  }).select('-__v -password');
 }
 
 async function getAllUsers() {

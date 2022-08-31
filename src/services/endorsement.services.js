@@ -7,10 +7,8 @@ import { getUser } from './user/user.services.js';
 async function endorseUser(endorserId, endorseeId) {
   const endorsee = await getUser({ _id: endorseeId });
   if (!endorsee) {
-    console.log(ok);
     throw new ErrorResponse('User not found', 404);
   }
-  console.log(endorsee);
   if (endorsee.role === ROLE.PRO_DIRECTOR)
     throw new ErrorResponse("Can't endorse directors or producers", 400);
   const alreadyEndorsed = await EndorsementModel.findOne({
@@ -58,13 +56,16 @@ async function getEndorsementByID(id) {
 }
 
 async function getGivenEndorsements(endorserId) {
-  return EndorsementModel.find({ endorserId });
+  return EndorsementModel.find({ endorserId }).populate(
+    'endorsee',
+    'id fullName role verification email'
+  );
 }
 
 async function getReceivedEndorsements(endorseeId) {
   return EndorsementModel.find({ endorseeId }).populate(
-    'endorserId',
-    'id fullName email'
+    'endorser',
+    'id fullName role verification email'
   );
 }
 

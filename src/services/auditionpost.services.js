@@ -11,7 +11,7 @@ async function createAuditionPost(body, author) {
 async function getAuditionPosts(filter) {
   return AuditionPostModel.find(filter).populate(
     'author',
-    'id fullName role verification'
+    'id fullName role verification address'
   );
 }
 
@@ -39,13 +39,13 @@ async function getMatchedAuditionPosts(query) {
         },
       },
     ],
-  });
+  }).populate('author', 'id fullName role verification address');
 }
 
 async function getAuditionPost(id) {
   return AuditionPostModel.findById(id).populate(
     'author',
-    'id fullName role verification'
+    'id fullName role verification address'
   );
 }
 
@@ -66,7 +66,6 @@ async function deleteAuditionPosts() {
 
 async function getApplicationCount(id) {
   const auditionPost = await getAuditionPost(id);
-  console.log(auditionPost.applicationCount);
   return auditionPost.applicationCount;
 }
 

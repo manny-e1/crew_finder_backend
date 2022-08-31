@@ -9,7 +9,8 @@ import {
 } from '../../services/endorsement.services.js';
 
 async function httpEndorseUser(req, res) {
-  res.status(201).json(await endorseUser(req.user._id, req.body.endorseeId));
+  await endorseUser(req.user._id, req.body.endorseeId);
+  res.status(201).json({ message: 'success' });
 }
 
 async function httpGetAllEndorsements(_, res) {

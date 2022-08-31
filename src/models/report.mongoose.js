@@ -1,15 +1,19 @@
 import mongoose from 'mongoose';
 
-const endorsementSchema = mongoose.Schema(
+const reportSchema = mongoose.Schema(
   {
-    endorser: {
+    reporter: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
-    endorsee: {
+    reportedUser: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
+      required: true,
+    },
+    reason: {
+      type: String,
       required: true,
     },
   },
@@ -18,6 +22,6 @@ const endorsementSchema = mongoose.Schema(
   }
 );
 
-const EndorsementModel = mongoose.model('Endorsement', endorsementSchema);
+const ReportModel = mongoose.model('Report', reportSchema);
 
-export default EndorsementModel;
+export default ReportModel;

@@ -11,7 +11,7 @@ import { ErrorResponse } from '../../utils/errorResponse.js';
 
 async function httpGetUsers(req, res) {
   const query = req.query.search ?? '';
-
+  console.log(query);
   res.status(200).json(await getMatchingUsers(query));
 }
 

@@ -20,7 +20,6 @@ async function httpCreateAuditionPost(req, res) {
     });
     throw new ErrorResponse(JSON.stringify(errorMessages), 400);
   }
-
   return res.status(201).json(await createAuditionPost(req.body, req.user._id));
 }
 

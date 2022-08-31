@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
-const endorsementSchema = mongoose.Schema(
+const favoriteSchema = mongoose.Schema(
   {
-    endorser: {
+    auditionPost: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'AuditionPost',
       required: true,
     },
-    endorsee: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
       required: true,
@@ -18,6 +18,6 @@ const endorsementSchema = mongoose.Schema(
   }
 );
 
-const EndorsementModel = mongoose.model('Endorsement', endorsementSchema);
+const FavoriteModel = mongoose.model('Favorite', favoriteSchema);
 
-export default EndorsementModel;
+export default FavoriteModel;
