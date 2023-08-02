@@ -42,6 +42,27 @@ async function getMatchedAuditionPosts(query) {
   }).populate('author', 'id fullName role verification address');
 }
 
+async function getPersonalizedAuditionPosts(userData) {
+  const talents = [...userData.otherTalents, userData.talent];
+  const region = userData.address.region;
+  console.log(talents);
+  return AuditionPostModel.find({
+    $and: [
+      {
+        gender: userData.gender,
+      },
+      {
+        region: { $regex: region, $options: 'i' },
+      },
+      {
+        talents: {
+          $in: talents,
+        },
+      },
+    ],
+  }).populate('author', 'id fullName role verification address');
+}
+
 async function getAuditionPost(id) {
   return AuditionPostModel.findById(id).populate(
     'author',
@@ -77,5 +98,6 @@ export {
   deleteAuditionPost,
   deleteAuditionPosts,
   getApplicationCount,
+  getPersonalizedAuditionPosts,
   getMatchedAuditionPosts,
 };

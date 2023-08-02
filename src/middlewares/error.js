@@ -25,7 +25,7 @@ function errorCatcher(fn) {
 
 function errorHandler(err, _, res, next) {
   const statusCode = err.statusCode || 500;
-  console.log(err.message);
+  console.log(err);
   res.status(statusCode).json({
     message: IsJsonString(err.message) ? JSON.parse(err.message) : err.message,
   });

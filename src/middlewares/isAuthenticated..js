@@ -18,6 +18,10 @@ export async function isAuthenticated(req, _, next) {
           email: 1,
           username: 1,
           role: 1,
+          talent: 1,
+          otherTalents: 1,
+          gender: 1,
+          address: 1,
         }
       );
       req.user = currentUser;

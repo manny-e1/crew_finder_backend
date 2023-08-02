@@ -5,6 +5,7 @@ import {
   getAuditionPost,
   getAuditionPosts,
   getMatchedAuditionPosts,
+  getPersonalizedAuditionPosts,
   updateAuditionPost,
 } from '../../services/auditionpost.services.js';
 import { ErrorResponse } from '../../utils/errorResponse.js';
@@ -39,6 +40,10 @@ async function httpGetMatchedAuditionPosts(req, res) {
   const query = req.query.search ?? '';
 
   return res.status(200).json(await getMatchedAuditionPosts(query));
+}
+
+async function httpGetPersonalizedAuditionPosts(req, res) {
+  return res.status(200).json(await getPersonalizedAuditionPosts(req.user));
 }
 
 async function httpGetAuditionPost(req, res) {
@@ -86,5 +91,6 @@ export {
   httpGetAuditionPost,
   httpDeleteAuditionPost,
   httpDeleteAuditionPosts,
+  httpGetPersonalizedAuditionPosts,
   httpGetMatchedAuditionPosts,
 };
